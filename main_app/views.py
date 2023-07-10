@@ -32,7 +32,7 @@ def login_view(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            if user.is_superuser == True:
+            if user.is_superuser == True or user.is_staff == True :
                 return redirect('/admin/')
             else:
                 return redirect('/')
@@ -47,6 +47,8 @@ def logout_view(request):
 
 @csrf_exempt
 def home_view(request):
+    if request.user.is_superuser == True or request.user.is_staff == True :
+        return redirect('/admin/')
     courses=Course.objects.filter(active=True)
     return render(request, 'courses/home.html',{'courses': courses,})
 
