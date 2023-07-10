@@ -24,6 +24,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
+@csrf_exempt
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -39,17 +40,18 @@ def login_view(request):
             return render(request, 'courses/login.html', {'error': 'Invalid credentials'})
     return render(request, 'courses/login.html')
 
+@csrf_exempt
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-# @login_required
+@csrf_exempt
 def home_view(request):
     courses=Course.objects.filter(active=True)
     return render(request, 'courses/home.html',{'courses': courses,})
 
 
-
+@csrf_exempt
 def signup_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -73,24 +75,24 @@ def signup_view(request):
 
 	
 
-
+@csrf_exempt
 def logout_view(request):
 	logout(request)
 	return redirect('/')
 
 
-
+@csrf_exempt
 def my_courses_view(request):
     if UserCourse.objects.filter(user = request.user):
         user_courses=UserCourse.objects.filter(user = request.user)
         return render(request, 'courses/my_courses.html', {'user_courses': user_courses})
     else:
-        error = 'No any course found !.'
+        error = 'No any course enrolled by you , Please go to home and enrolled the course !.'
 	
         return render(request, 'courses/my_courses.html', {'error': error})
 
 
-
+@csrf_exempt
 def coursePage(request , slug):
     course = Course.objects.get(slug  = slug)
     serial_number  = request.GET.get('lecture')
@@ -121,7 +123,7 @@ def coursePage(request , slug):
     return  render(request , template_name="courses/course_page.html" , context=context )    
     	
 
-
+@csrf_exempt
 @login_required(login_url='/login')
 def checkout(request , slug):
     course = Course.objects.get(slug  = slug)
@@ -177,7 +179,6 @@ def checkout(request , slug):
         "error" : error
     }
     return  render(request , template_name="courses/check_out.html" , context=context )    
-
 
 @csrf_exempt
 def verifyPayment(request):
