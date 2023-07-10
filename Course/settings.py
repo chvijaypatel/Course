@@ -52,6 +52,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Course.urls'
 
+
+CSRF_TRUSTED_ORIGINS = [
+    # 'your-admin-domain.com',
+    # 'https://mstore.bhaaraterp.com',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
