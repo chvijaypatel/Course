@@ -9,7 +9,9 @@ Signup
 <div class="container">
    <p class="display-6">My Courses </p>
    <hr>
-
+   {% if error %}
+   <p>{{ error }}</p>
+   {% endif %}
    <div class="row">
       {% for uc in user_courses %}
       <div class="col mx-auto">
