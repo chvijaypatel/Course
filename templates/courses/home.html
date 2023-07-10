@@ -1,13 +1,21 @@
 {% extends 'courses/base.html' %}
 {% load custom_tags %}
-{%block title%}Courses
-{% endblock %}
+{% block title %}Courses{% endblock %}
 
-{%block content%}
-
+{% block content %}
 <style>
     .price {
         font-size: 20px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 767px) {
+        .card {
+            width: 100%;
+        }
     }
 </style>
 
@@ -15,42 +23,36 @@
     <br>
     <div class="row">
         {% for course in courses %}
-        <div class="col mx-auto">
-            <div class="card mx-auto" style="width: 18rem;">
-                <img class="card-img-top" src="{{course.thumbnail.url}}" alt="Card image cap">
+        <div class="col-md-4">
+            <div class="card mx-auto">
+                <img class="card-img-top" src="{{ course.thumbnail.url }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{course.name}}</h5>
+                    <h5 class="card-title">{{ course.name }}</h5>
                     <p class="card-text m-0 p-0">
-                        Save {{course.discount}}%
+                        Save {{ course.discount }}%
                         <br>
                         <span class="price">
-                            <del>{{course.price|rupee}}</del>
-                            &nbsp;
-
-                            <span>{{course.amount_to_pay|rupee}}</span>
+                            <del>{{ course.price|rupee }}</del>&nbsp;
+                            <span>{{ course.amount_to_pay|rupee }}</span>
                         </span>
-
                     </p>
                 </div>
-
                 <div class="card-footer p-0">
-                    
                     {% is_enrolled request course as enrolled %}
                     <div class="row no-gutters">
                         {% if enrolled %}
                         <div class="col border-right">
-                            <a href="/course/{{course.slug}}" class="btn btn-light btn-block">Start Course</a>
+                            <a href="/course/{{ course.slug }}" class="btn btn-light btn-block">Start Course</a>
                         </div>
                         {% else %}
                         <div class="col border-right">
-                            <a href="/check-out/{{course.slug}}" class="btn btn-light btn-block">Enroll Now</a>
+                            <a href="/check-out/{{ course.slug }}" class="btn btn-light btn-block">Enroll Now</a>
                         </div>
                         <div class="col">
-                            <a href="/course/{{course.slug}}" class="btn btn-light  btn-block">Show More</a>
+                            <a href="/course/{{ course.slug }}" class="btn btn-light btn-block">Show More</a>
                         </div>
                         {% endif %}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -58,4 +60,10 @@
     </div>
 </div>
 
-{%endblock%}
+<br>
+<br>
+<br>
+
+{% endblock %}
+
+
